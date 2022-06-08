@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Suduku</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">       
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css"> 
+  <link href="css/icons/icon.css" rel="stylesheet">
+  <link href="css/icons/icon.min.css" rel="stylesheet">
+  <script src="js/jquery.min.js"></script> 
+  <script src="js/sweetalert.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="app-bar">
+        <button onclick="openHamburgerMenu()" class="button bar-button hamburger-button">
+            <span class="material-icons">menu</span>
+        </button>
+        <div class="bar-font title" id="project-name"></div>
+        <button id="pause-btn" onclick="pauseGame()" class="button bar-button more-button">
+            <span id="pause-icon" class="material-icons">pause</span>
+            <span id="pause-text">Դադար</span>
+        </button>
+        <button id="check-btn" onclick="checkSudoku()" class="button bar-button more-button">
+            <span class="material-icons">done_all</span>
+            <span id="check-label">Ստուգում</span>
+        </button>
+        <div class="form-group more-button" id='lang-el'>
+            <select class="form-control" id="lang">
+                <option value="am">AM</option>
+                <option value="en">EN</option>
+                <option value="ru">RU</option>
+            </select>
+         </div>
+    </nav>
+    <div id="hamburger-menu" class="hamburger-menu">
+        <nav id="nav-menu" class="nav-menu">
+            <div class="nav-head">
+                <div class="nav-head-img">
+                    <img src="img/logo.jpg" art="" />
+                </div>
+                <div class="nav-head-title" id="menu-sudoku-label">Sudoku</div>
+            </div>
+            <ul class="nav-items">
+                <button  id='hamburger-add-button' ripple-color="#003c8f" class="button nav-item vertical-adjust" data-toggle="modal" data-target="#new-game-dialog" >
+                    <div>
+                        <span class="material-icons">add</span>
+                        <span style="left:12px;" id="new-game-label">Նոր Խաղ</span>
+                    </div>
+                </button>
+                <button onclick="getHint()" ripple-color="#003c8f" class="button nav-item vertical-adjust" >
+                    <div>
+                        <span class="material-icons">offline_bolt</span>
+                        <span style="left:12px;" id="hint-label">Հուշում</span>
+                        <span id="rest-hint">---</span>
+                    </div>
+                </button>
+                <button onclick="restartSudoku()" ripple-color="#003c8f" class="button nav-item vertical-adjust" >
+                    <div>
+                        <span class="material-icons">autorenew</span>
+                        <span style="left:12px;" id="restart-label">Վերսկսել</span>
+                    </div>
+                </button>
+                <button onclick="surrender()" ripple-color="#003c8f" class="button nav-item vertical-adjust" >
+                    <div>
+                        <span class="material-icons">done</span>
+                        <span style="left:12px;" id="surrender-label">Հանձնվել</span>
+                    </div>
+                </button>
+            </ul>
+        </nav>
+    </div>
+    <div class="floating">
+        <button data-toggle="modal" data-target="#new-game-dialog" title="Սկսել Նոր Խաղ" class="button floating-btn vertical-adjust">
+            <span class="material-icons">add</span>
+        </button>
+    </div>
+    <div class="floating-left">
+        <button data-toggle="modal" style="width: 45px;height: 45px;border-radius: 50px;" data-target="#about-modal" title="Խաղի Մասին" class="button btn btn-primary vertical-adjust">
+            <span style="font-size: 25px;">&#33;</span>
+        </button>
+    </div>
+    <div class="body" id="sudoku">
+        <div class="card game">
+            <table id="puzzle-grid">
+                <tr>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                    <td>
+                        <input type="text" maxlength="1"  disabled/>
+                    </td>
+                </tr>
+            </table>
+            <div id="ckecked-rest" class="hide">
+                <label id="rest-label">Ստուգելու հնարավորություն։</label>
+                <label id="rest">---</label>
+            </div>
+        </div>
+        <div class="card status">
+            <div id="game-number">խաղ #0</div>
+            <ul class="game-status">
+                <li>
+                    <div class="vertical-adjust">
+                        <span class="material-icons">timer</span>
+                        <span id="timer-label">Ժամանակ</span>
+                    </div>
+                    <div id="timer" class="timer">00:00</div>
+                </li>
+                <li>
+                    <div class="vertical-adjust">
+                        <span class="material-icons">network_check</span>
+                        <span id="game-difficulty-label">Խաղի բարդություն</span>
+                    </div>
+                    <div id="game-difficulty" class="timer">---</div>
+                </li>
+                <li>
+                    <div class="vertical-adjust">
+                        <span class="material-icons">grid_on</span>
+                        <span id="remaining-label">Հնարավոր թվեր</span>
+                    </div>
+                    <div class="remain-table">
+                        <div class="remain-column">
+                            <div class="remain-cell">
+                                <div class="remain-cell-header">1</div>
+                                <div id="remain-1" class="remain-cell-content">0</div>
+                            </div>
+                            <div class="remain-cell">
+                                <div class="remain-cell-header">4</div>
+                                <div id="remain-4" class="remain-cell-content">0</div>
+                            </div>
+                            <div class="remain-cell">
+                                <div class="remain-cell-header">7</div>
+                                <div id="remain-7" class="remain-cell-content">0</div>
+                            </div>
+                        </div>
+                        <div class="remain-column">
+                            <div class="remain-cell">
+                                <div class="remain-cell-header">2</div>
+                                <div id="remain-2" class="remain-cell-content">0</div>
+                            </div>
+                            <div class="remain-cell">
+                                <div class="remain-cell-header">5</div>
+                                <div id="remain-5" class="remain-cell-content">0</div>
+                            </div>
+                            <div class="remain-cell">
+                                <div class="remain-cell-header">8</div>
+                                <div id="remain-8" class="remain-cell-content">0</div>
+                            </div>
+                        </div>
+                        <div class="remain-column">
+                            <div class="remain-cell">
+                                <div class="remain-cell-header">3</div>
+                                <div id="remain-3" class="remain-cell-content">0</div>
+                            </div>
+                            <div class="remain-cell">
+                                <div class="remain-cell-header">6</div>
+                                <div id="remain-6" class="remain-cell-content">0</div>
+                            </div>
+                            <div class="remain-cell">
+                                <div class="remain-cell-header">9</div>
+                                <div id="remain-9" class="remain-cell-content">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal fade" id="new-game-dialog" tabindex="-1" role="dialog" aria-labelledby="new_game_modal_title" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="new_game_modal_title">Նոր Խաղ</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+                <div class="dialog-body">
+                    <p id="new-game-difficulty">Ընտրել խաղի բարդությունը.</p>
+                    <ul>
+                        <li>
+                            <input id="very-easy" value="Շատ Հեշտ" type="radio" name="difficulty" class="radio">
+                            <label for="very-easy" id="very-easy-label" class="radio-option">Շատ Հեշտ</label>
+                        </li>
+                        <li>
+                            <input id="easy" value="Հեշտ" type="radio" name="difficulty" class="radio">
+                            <label for="easy" class="radio-option" id="easy-label">Հեշտ</label>
+                        </li>
+                        <li>
+                            <input id="normal" value="Միջին" type="radio" name="difficulty" class="radio">
+                            <label for="normal" class="radio-option" id="normal-label">Միջին</label>
+                        </li>
+                        <li>
+                            <input id="hard" value="Դժվար" type="radio" name="difficulty" class="radio">
+                            <label for="hard" class="radio-option" id="hard-label">Դժվար</label>
+                        </li>
+                        <li>
+                            <input id="very-hard" value="Շատ դժվար" type="radio" name="difficulty" class="radio">
+                            <label for="very-hard" class="radio-option" id="very-hard-label">Շատ դժվար</label>
+                        </li>
+                    </ul>
+                    <hr>
+                    <ul>
+                        <p id="game-type-label">Ընտրել խաղի տեսակը, խաղը սկսելու համար.</p>
+                        <li class="finished-checkbox-row">
+                            <input type="checkbox" id="finished-checkbox" checked>
+                            <label for="finished-checkbox" id="finishing-gmame-label">Ավարտով խաղ</label>
+                        </li>
+                    </ul>
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button  class="button dialog-btn vertical-adjust btn btn-primary" onclick="startNewGame()" data-dismiss="modal" id="start-game-label" >Սկսել</button>
+            <button  class="button dialog-btn vertical-adjust btn btn-secondary" data-dismiss="modal" id="cancel-game-label">Չեղարկել</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Խաղի մասին</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="about-game-label">Դիցուք ունենք 9×9 չափի քառակուսի, որը բաժանված է 3×3 չափի քառակուսիների։ Քառակուսին ընդհանուր ունի 81 վանդակ։ Պետք է ազատ վանդակները լրացնել 1-9 թվերվ այնպես, որ չհամընկնեն ո՛չ հորիզոնական, ո՛չ ուղղահայաց և ո՛չ էլ 3×3 չափի քառակուսու մեջ։ Խաղը սկսելու համար պետք է սեղմել գլխավոր պատուհանաի ստորին աջ անկյան (+)կոճակը (կամ ընտրել <<Նոր խաղ>>-ը մենյուից), նշել խաղի բարդության աստիճանը և խաղի տեսակը։
+            Ընտրելով "Ավարտով խաղ"-ը ըստ բարդության տրվում է խաղը ստուգելու սահմանապակ հնարավորություն, ինչը խաղը դարձնում է ավելի բարդ։</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#about-author" data-dismiss="modal" id="about-author-label">Հեղինակի մասին</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="close-label">Փակել</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="about-author" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aboutAuthorModalLongTitle">Հեղինակի մասին</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h5 id="collage-label">ԵՐԵՎԱՆԻ ԻՆՖՈՐՄԱՏԻԿԱՅԻ ՊԵՏԱԿԱՆ ՔՈԼԵՋ</h5>
+            <p id="student-label">Ուսանող՝ Օգանեսյան Նոդար</p>
+            <p id="group-label">Խումբ՝ 714</p>
+            <p id="director-label">Ղեկավար՝ Պետրոսյան Արթուր</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-target="#about-modal" data-toggle="modal" data-dismiss="modal" id="about-game-button-label">Խաղի մասին</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="close-about-dialog-label">Փակել</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<script src="js/main.js"></script>
+</body>
+</html>
